@@ -1,7 +1,11 @@
 import React from 'react'
 
 const Signin=()=>{
-    <h1>Signin Page</h1>
+    return(
+        <h1>Signin Page</h1>
+
+    )
+    
 }
 
 

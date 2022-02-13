@@ -1,7 +1,12 @@
 import React from 'react'
 
 const Signup=()=>{
-    <h1>Signup Page</h1>
+    return(
+        <h1>Signup Page</h1>
+
+
+
+    )
 }
 
 
