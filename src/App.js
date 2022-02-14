@@ -10,6 +10,9 @@ import ChatPage from "./pages/chat";
 import ProfilePage from "./pages/profile";
 import NotFound from "./pages/errors/NotFound";
 
+// Toaster for notifications and alerts
+import { Toaster } from "react-hot-toast";
+
 const App = () => {
   return (
     <Router>
@@ -21,6 +24,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      <Toaster />
     </Router>
   );
 };
