@@ -3,6 +3,16 @@ import image from "./mp.jpg";
 import { FaTimes, FaCheck } from "react-icons/fa";
 import "./home.css";
 
+/*const [userName,setUserName]=useState(null);
+
+const [isSwipeRight,setSwipeRight]=useState(false);
+
+const RejectedList=new Array.fill("empty",0);
+
+
+const AcceptedList=new Array.fill("empty",0);
+*/
+
 const HomePage = () => {
   /*const handleCase=()=>{
 
@@ -17,10 +27,13 @@ const HomePage = () => {
           <p>Tags</p>
         </div>
       </div>
-      <FaTimes className=""/>
-      <FaCheck className=""/>
+      <FaTimes className="timeIcon"/>
+      <FaCheck className="checkIcon"/>
     </div>
   );
 };
 
 export default HomePage;
+
+
+
