@@ -9,6 +9,7 @@ import HomePage from "./pages/home";
 import ChatPage from "./pages/chat";
 import ProfilePage from "./pages/profile";
 import NotFound from "./pages/errors/NotFound";
+import UserPage from "./pages/users";
 import SigninPage from "./pages/signin";
 
 // context
@@ -26,6 +27,7 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="chat" element={<ChatPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="users/:username" element={<UserPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="/signin" element={<SigninPage />} />
