@@ -1,0 +1,93 @@
+.nav {
+  display: flex;
+  height: 4rem;
+  background-color: var(--neutral-0);
+  width: 100%;
+  padding-inline: 4rem;
+  border-bottom: 3px solid var(--neutral-900);
+}
+
+.nav ul {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  align-items: center;
+  font-weight: 500;
+}
+.nav h1 {
+  font-style: italic;
+}
+.chat {
+  margin-left: auto;
+}
+.chat a {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--primary-100);
+  border-radius: 24px;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem 0.4rem 0.4rem;
+}
+.user:hover {
+  background-color: var(--primary-200);
+}
+
+.user img {
+  width: 36px;
+  height: 36px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+  .nav {
+    padding-inline: 2rem;
+  }
+}
+@media screen and (max-width: 500px) {
+  .nav {
+    padding-inline: 1rem;
+  }
+  .nav ul {
+    justify-content: space-between;
+  }
+  .nav ul li:nth-child(1) {
+    order: 2;
+  }
+  .nav ul li:nth-child(2) {
+    order: 3;
+    margin-left: 0;
+  }
+  .nav ul li:nth-child(3) {
+    order: 1;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .user {
+    padding: 0;
+  }
+  .user span {
+    display: none;
+  }
+  .user img {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .chat{
+    font-size: 1.6rem;
+  }
+  .chat span {
+    display: none;
+  }
+}
