@@ -53,12 +53,12 @@ const Card= ()=> {
   const canSwipe = currentIndex >= 0;
 
   // set last direction and decrease current index
-  const swiped = (direction, nameToDelete, index) => {
+  const swiped = (direction, character, index) => {
     if(direction=="left"){
-      rejectedList.push(nameToDelete);
+      rejectedList.push(character);
     }
     else{
-      acceptedList.push(nameToDelete);
+      acceptedList.push(character);
     }
     setLastDirection(direction);
     updateCurrentIndex(index - 1);
