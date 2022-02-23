@@ -1,7 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+:root {
+  --primary-100: #f0f0ff;
+  --primary-200: #d9d8ff;
+  --primary-500: #7b79ff;
+  --primary-600: #4945ff;
+  --primary-700: #271fe0;
+
+  --secondary-100: #eaf5ff;
+  --secondary-200: #b8e1ff;
+  --secondary-500: #66b7f1;
+  --secondary-600: #0c75af;
+  --secondary-700: #006096;
+
+  --alternative-100: #f6ecfc;
+  --alternative-200: #e0c1f4;
+  --alternative-500: #ac73e6;
+  --alternative-600: #9736e8;
+  --alternative-700: #8312d1;
+
+  --danger-100: #fcecea;
+  --danger-200: #f5c0b8;
+  --danger-500: #ee5e52;
+  --danger-600: #d02b20;
+  --danger-700: #b72b1a;
+
+  --success-100: #eafbe7;
+  --success-200: #c6f0c2;
+  --success-500: #5cb176;
+  --success-600: #328048;
+  --success-700: #2f6846;
+
+  --warning-100: #fdf4dc;
+  --warning-200: #fae7b9;
+  --warning-500: #f29d41;
+  --warning-600: #d9822f;
+  --warning-700: #be5d01;
+
+  --neutral-0: #ffffff;
+  --neutral-100: #f6f6f9;
+  --neutral-150: #eaeaef;
+  --neutral-200: #dcdce4;
+  --neutral-300: #c0c0cf;
+  --neutral-400: #a5a5ba;
+  --neutral-500: #8e8ea9;
+  --neutral-600: #666687;
+  --neutral-700: #4a4a6a;
+  --neutral-800: #32324d;
+  --neutral-900: #212134;
+  --neutral-1000: #181826;
+
+  --heading-font: "Montserrat", sans-serif;
+  --body-font: "Poppins", sans-serif;
+}
+
+body {
+  font-family: var(--body-font);
+  background-color: var(--neutral-100);
+  color: var(--neutral-900);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading-font);
+  color: var(--danger-900);
+}
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.push-right {
+  margin-left: auto;
+}
+
+input,
+button,
+label,
+textarea {
+  font-family: inherit;
+}
+
+strong {
+  font-weight: 600;
 }
