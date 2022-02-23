@@ -1,9 +1,24 @@
-import React, { Fragment } from "react";
-import { Outlet } from "react-router-dom";
+import React, { Fragment, useContext } from "react";
+import { Outlet, Navigate } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
+import { useLocation } from "react-router-dom";
+
 import Navigation from "./Navigation";
 
 const Layout = () => {
-  // TODO: Perform Auth check and redirect user to sign in if not authenticated
+  const { username } = useContext(AuthContext);
+
+  /**
+   * if user is not logged in then we get the `pathname` a user has requested
+   * and pass it in the `to` prop of <Navigate/> then we can extract the `pathname`
+   * in the signin page to redirect the user to requested path
+   */
+  let { pathname } = useLocation();
+
+  if (!username) {
+    return <Navigate to={`/signin?from=${pathname}`} />;
+  }
+
   return (
     <Fragment>
       <Navigation />
