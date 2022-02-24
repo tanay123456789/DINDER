@@ -3,33 +3,33 @@ import h from "./styles.module.css";
 // import TinderCard from '../react-tinder-card/index'
 import TinderCard from "react-tinder-card";
 
-const acceptedList=[];
-const rejectedList=[];
+const acceptedList = [];
+const rejectedList = [];
 
 const db = [
   {
     name: "Richard Hendricks",
-    url: "./img/richard.jpg"
+    url: "./img/richard.jpg",
   },
   {
     name: "Erlich Bachman",
-    url: "./img/erlich.jpg"
+    url: "./img/erlich.jpg",
   },
   {
     name: "Monica Hall",
-    url: "./img/monica.jpg"
+    url: "./img/monica.jpg",
   },
   {
     name: "Jared Dunn",
-    url: "./img/jared.jpg"
+    url: "./img/jared.jpg",
   },
   {
     name: "Dinesh Chugtai",
-    url: "./img/dinesh.jpg"
-  }
+    url: "./img/dinesh.jpg",
+  },
 ];
 
-const HomePage= ()=> {
+const HomePage = () => {
   const [currentIndex, setCurrentIndex] = useState(db.length - 1);
   const [lastDirection, setLastDirection] = useState();
   // used for outOfFrame closure
@@ -49,21 +49,17 @@ const HomePage= ()=> {
     currentIndexRef.current = val;
   };
 
-  
-
   const canSwipe = currentIndex >= 0;
 
   // set last direction and decrease current index
   const swiped = (direction, character, index) => {
-    if(direction=="left"){
+    if (direction == "left") {
       rejectedList.push(character);
-    }
-    else{
+    } else {
       acceptedList.push(character);
     }
     setLastDirection(direction);
     updateCurrentIndex(index - 1);
-
   };
 
   const outOfFrame = (name, idx) => {
@@ -82,19 +78,9 @@ const HomePage= ()=> {
   };
 
   // increase current index and show card
-  
 
   return (
     <div>
-      <link
-        href='https://fonts.googleapis.com/css?family=Damion&display=swap'
-        rel='stylesheet'
-      />
-      <link
-        href='https://fonts.googleapis.com/css?family=Alatsi&display=swap'
-        rel='stylesheet'
-      />
-     
       <div className={h.cardContainer}>
         {db.map((character, index) => (
           <TinderCard
@@ -114,9 +100,19 @@ const HomePage= ()=> {
         ))}
       </div>
       <div className={h.buttons}>
-        <button style={{ backgroundColor: !canSwipe && "#c3c4d3" }} onClick={() => swipe("left")}>Swipe left!</button>
-      
-        <button style={{ backgroundColor: !canSwipe && "#c3c4d3" }} onClick={() => swipe("right")}>Swipe right!</button>
+        <button
+          style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
+          onClick={() => swipe("left")}
+        >
+          Swipe left!
+        </button>
+
+        <button
+          style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
+          onClick={() => swipe("right")}
+        >
+          Swipe right!
+        </button>
       </div>
       {lastDirection ? (
         <h2 key={lastDirection} className={h.infoText}>
