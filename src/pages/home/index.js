@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from "react";
-import h from "./styles.modules.css";
+import h from "./styles.module.css";
 // import TinderCard from '../react-tinder-card/index'
 import TinderCard from "react-tinder-card";
 
