@@ -5,12 +5,13 @@ import { auth, db } from "../firebase";
 
 /**
  * a hook to read auth record and read user doc
- * it returns the user object and username
- */
-
+ * it returns the authenticated user,
+ *  username and user document
+*/
 const useUserData = () => {
   const [user] = useAuthState(auth);
   const [username, setUsername] = useState(null);
+  const [userDoc, setUserDoc] = useState(null);
 
   useEffect(() => {
     // stop listening to realtime subscription
@@ -21,6 +22,7 @@ const useUserData = () => {
 
       unsubscribe = onSnapshot(docRef, (doc) => {
         setUsername(doc.data()?.username);
+        setUserDoc(doc.data());
       });
     } else {
       setUsername(null);
@@ -28,7 +30,7 @@ const useUserData = () => {
     return unsubscribe;
   }, [user]);
 
-  return { user, username };
+  return { user, username, userDoc };
 };
 
 export default useUserData;
