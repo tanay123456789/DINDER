@@ -5,7 +5,7 @@ import { BsChatDots } from "react-icons/bs";
 import { AuthContext } from "../../context/authContext";
 
 const Navigation = () => {
-  const { user } = useContext(AuthContext);
+  const { user, username } = useContext(AuthContext);
   return (
     <nav className={s.nav}>
       <ul>
@@ -23,7 +23,7 @@ const Navigation = () => {
         <li>
           <Link to="/profile" className={s.user}>
             <img src={user.photoURL} alt={user.displayName} />
-            <span>{user.displayName}</span>
+            <span>{username}</span>
           </Link>
         </li>
       </ul>
