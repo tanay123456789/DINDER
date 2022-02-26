@@ -271,7 +271,6 @@ const NewProjectForm = ({ isModalVisible, hideModal }) => {
               name="thumbnail"
               accept="image/x-png,image/gif,image/jpeg"
               onChange={onChangePicture}
-              value={photo.name}
             />
             <Button variant="primary" shape="rounded" type="submit">
               Submit
