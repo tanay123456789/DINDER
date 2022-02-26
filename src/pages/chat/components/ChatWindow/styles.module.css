@@ -1,0 +1,10 @@
+.container {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column-reverse;
+  position: relative;
+  overflow-y: scroll;
+  background-image: url("https://wallpapercave.com/dwp1x/wp4410716.jpg");
+}
