@@ -102,6 +102,9 @@ function UsernameForm() {
       uid: user.uid,
       githubUID: user.providerData[0].uid,
       projects: [],
+      connected: [],
+      swipes: [],
+      passes: [],
     });
     batch.set(usernameDocRef, {
       uid: user.uid,

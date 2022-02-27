@@ -1,134 +1,179 @@
-import React, { useState, useMemo, useRef } from "react";
-import h from "./styles.module.css";
-// import TinderCard from '../react-tinder-card/index'
+import React, { useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types";
+import s from "./styles.module.css";
 import TinderCard from "react-tinder-card";
+import {
+  arrayUnion,
+  arrayRemove,
+  collection,
+  doc,
+  query,
+  updateDoc,
+  setDoc,
+  where,
+  Timestamp,
+  getDoc,
+} from "firebase/firestore";
+import { auth, db } from "../../firebase";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
+import { nanoid } from "nanoid";
+import Loader from "../../components/Loader";
+import { BsInfoCircle } from "react-icons/bs";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
-const acceptedList=[];
-const rejectedList=[];
+const HomePage = () => {
+  const [users, setUsers] = useState([]);
+  const { userDoc } = useContext(AuthContext);
+  const { swipes, passes, connected } = userDoc;
+  const hiddenUsers = [...swipes, ...passes, ...connected];
 
-const db = [
-  {
-    name: "Richard Hendricks",
-    url: "./img/richard.jpg"
-  },
-  {
-    name: "Erlich Bachman",
-    url: "./img/erlich.jpg"
-  },
-  {
-    name: "Monica Hall",
-    url: "./img/monica.jpg"
-  },
-  {
-    name: "Jared Dunn",
-    url: "./img/jared.jpg"
-  },
-  {
-    name: "Dinesh Chugtai",
-    url: "./img/dinesh.jpg"
-  }
-];
-
-const HomePage= ()=> {
-  const [currentIndex, setCurrentIndex] = useState(db.length - 1);
-  const [lastDirection, setLastDirection] = useState();
-  // used for outOfFrame closure
-  const currentIndexRef = useRef(currentIndex);
-
-  const childRefs = useMemo(
-    () =>
-      Array(db.length)
-        .fill(0)
-        // eslint-disable-next-line no-unused-vars
-        .map((i) => React.createRef()),
-    []
+  const q = query(
+    collection(db, "users"),
+    where("uid", "!=", auth.currentUser.uid)
   );
 
-  const updateCurrentIndex = (val) => {
-    setCurrentIndex(val);
-    currentIndexRef.current = val;
-  };
+  const [allUsers, isLoading] = useCollectionData(q);
 
-  
-
-  const canSwipe = currentIndex >= 0;
-
-  // set last direction and decrease current index
-  const swiped = (direction, character, index) => {
-    if(direction=="left"){
-      rejectedList.push(character);
+  useEffect(() => {
+    if (allUsers && allUsers.length > 0) {
+      const filteredUser = allUsers.filter(
+        (user) => !hiddenUsers.some((uid) => uid === user.uid)
+      );
+      setUsers(filteredUser);
     }
-    else{
-      acceptedList.push(character);
+  }, [allUsers]);
+
+  const congratulate = (user) => {
+    alert(`Congratulation you connected with ${user.displayName}`);
+  };
+
+  const initializeChat = async (uid1, uid2) => {
+    const chatId = nanoid();
+    const chatsRef = doc(db, "chats", chatId);
+    await setDoc(chatsRef, {
+      users: [uid1, uid2],
+      createdAt: Timestamp.now(),
+      chatId,
+    });
+  };
+
+  /**
+   * check if already swiped by the other user
+   * if yes then and swiped user to `connected`
+   * else add to `swipes`
+   *
+   **/
+  const handleRightSwipe = async (uid) => {
+    try {
+      const { currentUser } = auth;
+
+      const swipedUserDocRef = doc(db, "users", uid);
+      const loggedUserDocRef = doc(db, "users", currentUser.uid);
+
+      const swipedUser = await getDoc(swipedUserDocRef);
+      const swipes = swipedUser.data().swipes;
+
+      const isAlreadySwiped = swipes.some((uid) => uid === currentUser.uid);
+
+      if (isAlreadySwiped) {
+        // add swiped user in connected arr of logged in user
+        await updateDoc(loggedUserDocRef, {
+          connected: arrayUnion(uid),
+        });
+
+        // add logged user in connected arr of swiped user
+        // and remove the logged in user from swipes array
+        await updateDoc(swipedUserDocRef, {
+          connected: arrayUnion(currentUser.uid),
+          swipes: arrayRemove(currentUser.uid),
+        });
+
+        // initialize the chat
+        await initializeChat(currentUser.uid, uid);
+        // congratulate the user
+        congratulate(swipedUser.data());
+      } else {
+        // just update the logged in user's doc
+        await updateDoc(loggedUserDocRef, {
+          swipes: arrayUnion(uid),
+        });
+      }
+    } catch (e) {
+      console.log(e);
     }
-    setLastDirection(direction);
-    updateCurrentIndex(index - 1);
-
   };
-
-  const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
-    // handle the case in which go back is pressed before card goes outOfFrame
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
-    // TODO: when quickly swipe and restore multiple times the same card,
-    // it happens multiple outOfFrame events are queued and the card disappear
-    // during latest swipes. Only the last outOfFrame event should be considered valid
-  };
-
-  const swipe = async (dir) => {
-    if (canSwipe && currentIndex < db.length) {
-      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+  const handleLeftSwipe = async (uid) => {
+    try {
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      await updateDoc(docRef, {
+        passes: arrayUnion(uid),
+      });
+    } catch (e) {
+      console.log(e);
     }
   };
 
-  // increase current index and show card
-  
+  const handleSwipe = async (direction, uid) => {
+    if (direction === "left") {
+      await handleLeftSwipe(uid);
+    } else if (direction === "right") {
+      console.log("RIGHT");
+      await handleRightSwipe(uid);
+    }
+  };
+
+  if (isLoading || !users)
+    return (
+      <main className={s.container}>
+        <Loader show />
+      </main>
+    );
 
   return (
-    <div>
-      <link
-        href='https://fonts.googleapis.com/css?family=Damion&display=swap'
-        rel='stylesheet'
-      />
-      <link
-        href='https://fonts.googleapis.com/css?family=Alatsi&display=swap'
-        rel='stylesheet'
-      />
-     
-      <div className={h.cardContainer}>
-        {db.map((character, index) => (
-          <TinderCard
-            ref={childRefs[index]}
-            className={h.swipe}
-            key={character.name}
-            onSwipe={(dir) => swiped(dir, character.name, index)}
-            onCardLeftScreen={() => outOfFrame(character.name, index)}
-          >
-            <div
-              style={{ backgroundImage: "url(" + character.url + ")" }}
-              className={h.card}
-            >
-              <h3>{character.name}</h3>
-            </div>
-          </TinderCard>
-        ))}
-      </div>
-      <div className={h.buttons}>
-        <button style={{ backgroundColor: !canSwipe && "#c3c4d3" }} onClick={() => swipe("left")}>Swipe left!</button>
-      
-        <button style={{ backgroundColor: !canSwipe && "#c3c4d3" }} onClick={() => swipe("right")}>Swipe right!</button>
-      </div>
-      {lastDirection ? (
-        <h2 key={lastDirection} className={h.infoText}>
-          You swiped {lastDirection}
-        </h2>
+    <main className={s.container}>
+      {users.length > 0 ? (
+        <div className={s.cardContainer}>
+          {users.map((user) => (
+            <SwipeableCard
+              user={user}
+              key={user.uid}
+              onSwipe={(direction) => handleSwipe(direction, user.uid)}
+              preventSwipe={["up", "down"]}
+            />
+          ))}
+        </div>
       ) : (
-        <h2 className={h.infoText}>
-          Swipe a card or press a button to get Restore Card button visible!
-        </h2>
+        <h2>cannot find more users</h2>
       )}
-    </div>
+    </main>
   );
 };
 
 export default HomePage;
+
+const SwipeableCard = ({ user, ...props }) => {
+  return (
+    <TinderCard className={s.swipeable} {...props}>
+      <div
+        className={s.card}
+        style={{
+          backgroundImage: `url(${user.photoURL})`,
+        }}
+      >
+        <div className={s.info}>
+          <Link to={`/users/${user.username}`}>
+            <h3>{user.displayName}</h3>
+            <span>
+              <BsInfoCircle />
+            </span>
+          </Link>
+        </div>
+      </div>
+    </TinderCard>
+  );
+};
+
+SwipeableCard.propTypes = {
+  user: PropTypes.object,
+};

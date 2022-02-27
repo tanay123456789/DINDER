@@ -1,0 +1,50 @@
+.container {
+  width: 100%;
+  height: 4rem;
+  padding: 0rem 1rem;
+  display: flex;
+  align-items: center;
+  background-color: var(--neutral-200);
+  border-top: 3px solid var(--neutral-900);
+}
+
+.container input {
+  width: 75%;
+  height: 70%;
+  border: none;
+  background-color: transparent;
+  background-color: var(--neutral-0);
+  padding: 0 0.6rem;
+  outline: none;
+  border-top-left-radius: 0.4rem;
+  border-bottom-left-radius: 0.4rem;
+}
+
+.container input:focus {
+  outline: 2px solid var(--neutral-900);
+}
+
+.container button {
+  width: 25%;
+  height: 70%;
+  border: none;
+  border-left: 0;
+  outline: none;
+  background-color: var(--primary-500);
+  color: var(--neutral-0);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--heading-font);
+  border-top-right-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+}
+
+.container button:focus {
+  outline: 2px solid var(--neutral-700);
+}
+
+.container button:disabled {
+  background-color: var(--neutral-300);
+  color: var(--neutral-400);
+  cursor: not-allowed;
+}
