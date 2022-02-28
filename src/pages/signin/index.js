@@ -15,7 +15,7 @@ import debounce from "lodash.debounce";
 import { signInWithPopup } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, githubProvider, batch, db } from "../../firebase";
-
+import { FaGithubAlt } from "react-icons/fa";
 // style
 import s from "./styles.module.css";
 
@@ -41,16 +41,11 @@ const SigninPage = () => {
   }
   return (
     <Fragment>
-      <main>
-        {user ? (
-          !username ? (
-            <UsernameForm />
-          ) : (
-            <SignOutButton />
-          )
-        ) : (
-          <SignInButton />
-        )}
+      <main
+        className={s.signin}
+        style={{ backgroundImage: "url('/gradient.png')" }}
+      >
+        {user ? !username ? <UsernameForm /> : <SignOutButton /> : <SignIn />}
       </main>
     </Fragment>
   );
@@ -58,14 +53,39 @@ const SigninPage = () => {
 
 export default SigninPage;
 
-function SignInButton() {
+function SignIn() {
   const hanldeSignIn = async () => {
     await signInWithPopup(auth, githubProvider);
   };
   return (
-    <button className={s.btn} onClick={hanldeSignIn}>
-      Sign in with Github
-    </button>
+    <Fragment>
+      <nav className={s.nav}>
+        <h1>
+          <em>DINDER</em>
+        </h1>
+      </nav>
+      <section>
+        <h1>
+          Introducing <em> DINDER</em>
+        </h1>
+        <p>
+          Have your ever wished you had a pair programmer for hackathons and to
+          work on other projects. Worry not we present you{" "}
+          <strong>
+            <em>&ldquo;DINDER&rdquo;</em>
+          </strong>{" "}
+          where you can connect with other developers with a right swipe.
+        </p>
+        <h3>
+          <em>&ldquo;Dinder is like tinder but for developers.&rdquo;</em>
+        </h3>
+
+        <button className={s.btn} onClick={hanldeSignIn}>
+          <FaGithubAlt />
+          Continue With GitHub
+        </button>
+      </section>
+    </Fragment>
   );
 }
 function SignOutButton() {
@@ -144,7 +164,7 @@ function UsernameForm() {
   const checkUsername = useCallback(
     debounce(async (username) => {
       if (username.length >= 3) {
-        const ref = doc(db, "username", username);
+        const ref = doc(db, "usernames", username);
         const docSnap = await getDoc(ref);
         console.log("Firestore read executed!");
         const exists = docSnap.exists();
@@ -157,30 +177,31 @@ function UsernameForm() {
 
   return (
     !username && (
-      <section style={{ paddingTop: "2rem" }}>
-        <h3>Choose Username</h3>
+      <section>
+        <h3>Choose username</h3>
         <span
           style={{ marginBottom: "1rem", display: "block", fontSize: "0.8rem" }}
         >
           Usernames cannot be changed later.
         </span>
-        <form
-          onSubmit={onSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}
-        >
-          <input
-            name="username"
-            placeholder="myname"
-            value={formValue}
-            onChange={onChange}
-            autoComplete="off"
-          />
+        <form onSubmit={onSubmit}>
+          <div className={s.formField}>
+            <label htmlFor="username">Username</label>
+            <input
+              name="username"
+              placeholder="username"
+              value={formValue}
+              onChange={onChange}
+              autoComplete="off"
+            />
+          </div>
+
           <UsernameMessage
             username={formValue}
             isValid={isValid}
             loading={loading}
           />
-          <button type="submit" className="btn-green" disabled={!isValid}>
+          <button type="submit" disabled={!isValid}>
             Choose
           </button>
 
