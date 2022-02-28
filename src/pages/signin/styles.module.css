@@ -10,9 +10,9 @@
   background-size: cover;
 }
 
-/* ----- Nav -----  */
+/* ----- header -----  */
 
-.nav {
+.header {
   height: 4rem;
   display: flex;
   align-items: center;
@@ -20,35 +20,35 @@
   width: 100%;
   top: 0;
 }
-.nav h1 {
+.header h1 {
   font-size: 2rem;
   font-weight: 800;
 }
 
 /*  ---- hero ----- */
 
-section {
+.section {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-section h1 {
+.section h1 {
   font-size: 4rem;
   margin-bottom: 2rem;
 }
 
-section h3 {
+.section h3 {
   margin-top: 0.4rem;
 }
-section p {
+.section p {
   max-width: 500px;
 }
-section strong {
+.section strong {
   position: relative;
   z-index: 10;
   margin: 0 0.2rem;
 }
-section strong::after {
+.section strong::after {
   content: "";
   position: absolute;
   height: 30%;
@@ -81,13 +81,13 @@ section strong::after {
 }
 
 @media screen and (max-width: 900px) {
-  section h1 {
+  .section h1 {
     font-size: 3rem;
     margin-bottom: 2rem;
   }
 }
 @media screen and (max-width: 768px) {
-  .nav h1 {
+  .header h1 {
     font-size: 1.5rem;
     font-weight: 800;
   }
@@ -95,7 +95,7 @@ section strong::after {
   .signin {
     padding: 0 2rem;
   }
-  section h1 {
+  .section h1 {
     font-size: 2rem;
     margin-bottom: 1.4rem;
   }
@@ -103,7 +103,7 @@ section strong::after {
 
 /* ---------- USERNAME FORM ---------- */
 
-form {
+.usernameForm {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -113,15 +113,15 @@ form {
   flex-direction: column;
 }
 
-input {
+.usernameForm input {
   padding: 0.4rem;
   border-radius: 0.4rem;
 }
-input:focus {
+.usernameForm input:focus {
   outline: 2px solid var(--primary-700);
 }
 
-button {
+.usernameForm button {
   border-radius: 0.4rem;
   padding: 0.4rem 1.6rem;
   display: flex;
@@ -135,7 +135,7 @@ button {
   cursor: pointer;
   border: none;
 }
-button:disabled {
+.usernameForm button:disabled {
   background-color: var(--neutral-500);
   color: var(--neutral-150);
   cursor: not-allowed;
