@@ -59,12 +59,12 @@ function SignIn() {
   };
   return (
     <Fragment>
-      <nav className={s.nav}>
+      <nav className={s.header}>
         <h1>
           <em>DINDER</em>
         </h1>
       </nav>
-      <section>
+      <section className={s.section}>
         <h1>
           Introducing <em> DINDER</em>
         </h1>
@@ -184,7 +184,7 @@ function UsernameForm() {
         >
           Usernames cannot be changed later.
         </span>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className={s.usernameForm}>
           <div className={s.formField}>
             <label htmlFor="username">Username</label>
             <input
