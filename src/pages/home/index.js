@@ -21,9 +21,13 @@ import { nanoid } from "nanoid";
 import Loader from "../../components/Loader";
 import { BsInfoCircle } from "react-icons/bs";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import Confetti from "./components/Confetti";
+import { toast } from "react-hot-toast";
 
 const HomePage = () => {
   const [users, setUsers] = useState([]);
+  const [showConfetti, setShowConfetti] = useState(false);
+
   const { userDoc } = useContext(AuthContext);
   const { swipes, passes, connected } = userDoc;
   const hiddenUsers = [...swipes, ...passes, ...connected];
@@ -45,7 +49,14 @@ const HomePage = () => {
   }, [allUsers]);
 
   const congratulate = (user) => {
-    alert(`Congratulation you connected with ${user.displayName}`);
+    setShowConfetti(true);
+    toast(`Congratulations you connected with ${user.displayName}`, {
+      style: {
+        width: "40rem",
+        fontWeight: "bold",
+      },
+      icon: "🤝",
+    });
   };
 
   const initializeChat = async (uid1, uid2) => {
@@ -132,6 +143,7 @@ const HomePage = () => {
 
   return (
     <main className={s.container}>
+      <Confetti showConfetti={showConfetti} setShowConfetti={setShowConfetti} />
       {users.length > 0 ? (
         <div className={s.cardContainer}>
           {users.map((user) => (
