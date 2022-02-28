@@ -106,3 +106,12 @@ strong {
   align-items: center;
   justify-content: center;
 }
+
+.text-success {
+  color: var(--success-500);
+  font-weight: 500;
+}
+.text-danger {
+  color: var(--danger-700);
+  font-weight: 500;
+}
