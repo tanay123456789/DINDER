@@ -2,11 +2,10 @@ import React, { Fragment, useContext } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import { useLocation } from "react-router-dom";
-
 import Navigation from "./Navigation";
 
 const Layout = () => {
-  const { username } = useContext(AuthContext);
+  const { user, username } = useContext(AuthContext);
 
   /**
    * if user is not logged in then we get the `pathname` a user has requested
@@ -15,7 +14,7 @@ const Layout = () => {
    */
   let { pathname } = useLocation();
 
-  if (!username) {
+  if (!username || !user?.uid) {
     return <Navigate to={`/signin?from=${pathname}`} />;
   }
 
